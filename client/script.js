@@ -17,7 +17,9 @@ function showSection(sectionName) {
 
 async function loadUsers() {
     try {
-        const response = await fetch(`${API_GATEWAY}/api/users`);
+        const response = await fetch(`${API_GATEWAY}/api/users`, {
+    credentials: "include"
+});
 
         if (!response.ok) {
             throw new Error(`HTTP Error: ${response.status}`);
@@ -41,7 +43,9 @@ async function loadUsers() {
 
 async function loadHotels() {
     try {
-        const response = await fetch(`${API_GATEWAY}/api/hotels`);
+        const response = await fetch(`${API_GATEWAY}/api/hotels`, {
+    credentials: "include"
+});
 
         if (!response.ok) {
             throw new Error(`HTTP Error: ${response.status}`);
@@ -65,7 +69,9 @@ async function loadHotels() {
 
 async function loadRooms() {
     try {
-        const response = await fetch(`${API_GATEWAY}/api/rooms`);
+        const response = await fetch(`${API_GATEWAY}/api/rooms`, {
+    credentials: "include"
+});
 
         if (!response.ok) {
             throw new Error(`HTTP Error: ${response.status}`);
@@ -89,8 +95,9 @@ async function loadRooms() {
 
 async function loadReservations() {
     try {
-        const response =
-            await fetch(`${API_GATEWAY}/api/reservations`);
+        const response = await fetch(`${API_GATEWAY}/api/reservations`, {
+    credentials: "include"
+});
 
         if (!response.ok) {
             throw new Error(`HTTP Error: ${response.status}`);
