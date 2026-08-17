@@ -1,0 +1,23 @@
+# Maven
+**/target/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Environment / secrets
+.env
+**/.env
+application-local.properties
+application-secret.properties
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Spring Boot build artifacts
+**/BOOT-INF/
