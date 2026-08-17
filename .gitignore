@@ -21,3 +21,7 @@ Thumbs.db
 
 # Spring Boot build artifacts
 **/BOOT-INF/
+
+# Local application configuration / secrets
+api-gateway/src/main/resources/
+user-service/src/main/resources/
