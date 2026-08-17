@@ -25,3 +25,7 @@ Thumbs.db
 # Local application configuration / secrets
 api-gateway/src/main/resources/
 user-service/src/main/resources/
+
+# Local application configuration / secrets
+api-gateway/src/main/resources/
+user-service/src/main/resources/
