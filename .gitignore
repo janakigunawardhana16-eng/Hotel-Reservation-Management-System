@@ -28,3 +28,6 @@ Thumbs.db
 application-local.properties
 application-secret.properties
 **/BOOT-INF/
+# Local application configuration
+api-gateway/src/main/resources/application.properties
+user-service/src/main/resources/application.properties
