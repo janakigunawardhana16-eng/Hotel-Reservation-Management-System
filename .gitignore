@@ -1,5 +1,6 @@
 # Java / Maven
 target/
+**/target/
 *.class
 *.jar
 
@@ -23,20 +24,7 @@ Thumbs.db
 # Environment / secrets
 .env
 *.env
-
-# Local application configuration
-**/application.properties
-**/application-local.properties
-**/application-secret.properties
-
-# Node.js
-node_modules/
-npm-debug.log*
-
-# Build files
-dist/
-build/
-
-# Temporary files
-*.tmp
-*.temp
+**/.env
+application-local.properties
+application-secret.properties
+**/BOOT-INF/
