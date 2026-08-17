@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Reservation Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1>Hotel Reservation Management System</h1>
+
+    <nav>
+        <button onclick="showSection('users')">Users</button>
+        <button onclick="showSection('hotels')">Hotels</button>
+        <button onclick="showSection('rooms')">Rooms</button>
+        <button onclick="showSection('reservations')">Reservations</button>
+    </nav>
+
+    <main>
+
+        <!-- Users -->
+        <section id="users">
+            <h2>Users</h2>
+            <button onclick="loadUsers()">View Users</button>
+            <div id="usersResult"></div>
+        </section>
+
+        <!-- Hotels -->
+        <section id="hotels" style="display:none;">
+            <h2>Hotels</h2>
+            <button onclick="loadHotels()">View Hotels</button>
+            <div id="hotelsResult"></div>
+        </section>
+
+        <!-- Rooms -->
+        <section id="rooms" style="display:none;">
+            <h2>Rooms</h2>
+            <button onclick="loadRooms()">View Rooms</button>
+            <div id="roomsResult"></div>
+        </section>
+
+        <!-- Reservations -->
+        <section id="reservations" style="display:none;">
+            <h2>Reservations</h2>
+            <button onclick="loadReservations()">View Reservations</button>
+            <div id="reservationsResult"></div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
