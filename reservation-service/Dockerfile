@@ -2,8 +2,8 @@ FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-COPY target/hotel-room-service-0.0.1-SNAPSHOT.jar app.jar
+COPY target/reservation-service-0.0.1-SNAPSHOT.jar app.jar
 
-EXPOSE 8082
+EXPOSE 8083
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
