@@ -4,7 +4,7 @@ services:
     image: mongo:latest
     container_name: hotel-mongodb
     ports:
-       - "27018:27017"
+      - "27018:27017"
     volumes:
       - mongo-data:/data/db
     networks:
@@ -21,8 +21,8 @@ services:
       - hotel-network
 
   hotel-service:
-    build: ./hotel-service
-    container_name: hotel-service
+    build: ./hotel-room-service
+    container_name: hotel-room-service
     ports:
       - "8082:8082"
     depends_on:
@@ -56,7 +56,7 @@ services:
     build: ./client
     container_name: hotel-client
     ports:
-        - "3000:80"
+      - "3000:80"
     depends_on:
       - api-gateway
     networks:

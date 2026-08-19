@@ -18,8 +18,14 @@ function showSection(sectionName) {
 async function loadUsers() {
     try {
         const response = await fetch(`${API_GATEWAY}/api/users`, {
-    credentials: "include"
-});
+            credentials: "include"
+        });
+
+        if (response.status === 401) {
+            window.location.href =
+                `${API_GATEWAY}/oauth2/authorization/google`;
+            return;
+        }
 
         if (!response.ok) {
             throw new Error(`HTTP Error: ${response.status}`);
@@ -44,8 +50,14 @@ async function loadUsers() {
 async function loadHotels() {
     try {
         const response = await fetch(`${API_GATEWAY}/api/hotels`, {
-    credentials: "include"
-});
+            credentials: "include"
+        });
+
+        if (response.status === 401) {
+            window.location.href =
+                `${API_GATEWAY}/oauth2/authorization/google`;
+            return;
+        }
 
         if (!response.ok) {
             throw new Error(`HTTP Error: ${response.status}`);
@@ -70,8 +82,14 @@ async function loadHotels() {
 async function loadRooms() {
     try {
         const response = await fetch(`${API_GATEWAY}/api/rooms`, {
-    credentials: "include"
-});
+            credentials: "include"
+        });
+
+        if (response.status === 401) {
+            window.location.href =
+                `${API_GATEWAY}/oauth2/authorization/google`;
+            return;
+        }
 
         if (!response.ok) {
             throw new Error(`HTTP Error: ${response.status}`);
@@ -96,8 +114,14 @@ async function loadRooms() {
 async function loadReservations() {
     try {
         const response = await fetch(`${API_GATEWAY}/api/reservations`, {
-    credentials: "include"
-});
+            credentials: "include"
+        });
+
+        if (response.status === 401) {
+            window.location.href =
+                `${API_GATEWAY}/oauth2/authorization/google`;
+            return;
+        }
 
         if (!response.ok) {
             throw new Error(`HTTP Error: ${response.status}`);

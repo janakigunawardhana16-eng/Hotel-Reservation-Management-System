@@ -5,17 +5,24 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
 @Configuration
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        SimpleUrlAuthenticationSuccessHandler successHandler =
+                new SimpleUrlAuthenticationSuccessHandler(
+                        "http://localhost:3000"
+                );
 
         http
             .csrf(csrf -> csrf.disable())
@@ -37,8 +44,18 @@ public class SecurityConfig {
 
                 .anyRequest().authenticated()
             )
+.exceptionHandling(exception -> exception
+    .authenticationEntryPoint(
+        new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
+    )
+)
+            
+                
+            
 
-            .oauth2Login(oauth -> {});
+            .oauth2Login(oauth -> oauth
+                .successHandler(successHandler)
+            );
 
         return http.build();
     }
