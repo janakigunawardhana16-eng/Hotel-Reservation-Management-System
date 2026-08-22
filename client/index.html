@@ -3,54 +3,457 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Reservation Management System</title>
+    <title>StayLux | Luxury Hotel Reservation & Management</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <h1>Hotel Reservation Management System</h1>
+    <!-- Background Decorative Glows -->
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
 
-    <nav>
-        <button onclick="showSection('users')">Users</button>
-        <button onclick="showSection('hotels')">Hotels</button>
-        <button onclick="showSection('rooms')">Rooms</button>
-        <button onclick="showSection('reservations')">Reservations</button>
-    </nav>
+    <!-- =====================================================
+         NAVIGATION BAR
+    ===================================================== -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand" onclick="navigateTo('home')">
+                <div class="brand-icon">🏨</div>
+                <div class="brand-info">
+                    <span class="brand-title">StayLux</span>
+                    <span class="brand-subtitle">HOTEL RESERVATIONS</span>
+                </div>
+            </div>
 
-    <main>
+            <!-- Flow Step Breadcrumb / Progress Pill -->
+            <div class="flow-pill" id="flowPill">
+                <span class="pill-dot"></span>
+                <span class="pill-text" id="stepIndicator">Home</span>
+            </div>
 
-        <!-- Users -->
-        <section id="users">
-            <h2>Users</h2>
-            <button onclick="loadUsers()">View Users</button>
-            <div id="usersResult"></div>
+            <!-- Quick Navigation -->
+            <nav class="nav-actions">
+                <button class="nav-btn" onclick="navigateTo('home')">
+                    <span>🏠</span> Home
+                </button>
+                <button class="nav-btn" onclick="navigateTo('hotels')">
+                    <span>🏨</span> Hotels
+                </button>
+                <button class="nav-btn" onclick="navigateTo('reservations')">
+                    <span>📋</span> My Bookings
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Global Toast / Alert Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- MAIN CONTENT APP CONTAINER -->
+    <main class="main-wrapper">
+
+        <!-- =====================================================
+             1. HOME SECTION
+        ===================================================== -->
+        <section id="homeSection" class="view-section active">
+            <div class="hero-container">
+                <div class="hero-left">
+                    <div class="badge-pill">
+                        ✨ Premium Stays & Seamless Reservations
+                    </div>
+                    <h1 class="hero-title">
+                        Discover Your <br>
+                        <span class="text-gradient">Dream Getaway</span>
+                    </h1>
+                    <p class="hero-desc">
+                        Explore handpicked luxury hotels, view real-time room availability, and effortlessly secure your reservation in just a few clicks.
+                    </p>
+                    
+                    <div class="hero-cta-group">
+                        <button class="btn btn-primary btn-lg" onclick="navigateTo('hotels')">
+                            Explore Hotels <span>→</span>
+                        </button>
+                        <button class="btn btn-secondary btn-lg" onclick="navigateTo('reservations')">
+                            View My Reservations <span>📋</span>
+                        </button>
+                    </div>
+
+                    <!-- Trust / Metric Stats -->
+                    <div class="hero-stats">
+                        <div class="stat-card">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Instant Confirmation</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-card">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Live Availability</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-card">
+                            <span class="stat-number">4.9 ★</span>
+                            <span class="stat-label">Guest Rating</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-right">
+                    <div class="hero-image-card">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80" 
+                             alt="Luxury Resort" 
+                             class="hero-img">
+                        <div class="floating-badge badge-top">
+                            <span class="badge-icon">⭐</span>
+                            <div>
+                                <strong>Top Rated</strong>
+                                <small>Luxury & Comfort</small>
+                            </div>
+                        </div>
+                        <div class="floating-badge badge-bottom">
+                            <span class="badge-icon">🛎️</span>
+                            <div>
+                                <strong>Instant Booking</strong>
+                                <small>Direct Confirmation</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <!-- Hotels -->
-        <section id="hotels" style="display:none;">
-            <h2>Hotels</h2>
-            <button onclick="loadHotels()">View Hotels</button>
-            <div id="hotelsResult"></div>
+
+        <!-- =====================================================
+             2. HOTEL LIST SECTION
+        ===================================================== -->
+        <section id="hotelsSection" class="view-section">
+            <div class="section-header">
+                <div class="header-content">
+                    <span class="step-tag">STEP 01</span>
+                    <h2 class="section-title">Select Your Preferred Hotel</h2>
+                    <p class="section-desc">Browse our curated collection of luxury hotels and find your destination.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline btn-sm" onclick="fetchHotels()">
+                        <span>🔄</span> Refresh List
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="hotelsLoader" class="loader-state" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading available hotels...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div id="hotelsEmpty" class="empty-state" style="display: none;">
+                <div class="empty-icon">🏨</div>
+                <h3>No Hotels Available</h3>
+                <p>There are currently no hotels registered in the system.</p>
+                <button class="btn btn-primary btn-sm" onclick="fetchHotels()">Try Again</button>
+            </div>
+
+            <!-- Hotels Grid -->
+            <div id="hotelsGrid" class="cards-grid hotels-grid"></div>
+
+            <div class="section-footer-nav">
+                <button class="btn btn-secondary" onclick="navigateTo('home')">
+                    ← Back to Home
+                </button>
+            </div>
         </section>
 
-        <!-- Rooms -->
-        <section id="rooms" style="display:none;">
-            <h2>Rooms</h2>
-            <button onclick="loadRooms()">View Rooms</button>
-            <div id="roomsResult"></div>
+
+        <!-- =====================================================
+             3. HOTEL DETAILS SECTION
+        ===================================================== -->
+        <section id="hotelDetailsSection" class="view-section">
+            <div class="breadcrumb-bar">
+                <button class="btn-link" onclick="navigateTo('hotels')">← Back to Hotel List</button>
+            </div>
+
+            <div id="hotelDetailsContent" class="details-container">
+                <!-- Dynamically populated by renderHotelDetails() -->
+            </div>
         </section>
 
-        <!-- Reservations -->
-        <section id="reservations" style="display:none;">
-            <h2>Reservations</h2>
-            <button onclick="loadReservations()">View Reservations</button>
-            <div id="reservationsResult"></div>
+
+        <!-- =====================================================
+             4. ROOM LIST SECTION
+        ===================================================== -->
+        <section id="roomsSection" class="view-section">
+            <div class="section-header">
+                <div class="header-content">
+                    <span class="step-tag">STEP 02</span>
+                    <h2 class="section-title" id="roomsSectionTitle">Available Rooms</h2>
+                    <p class="section-desc" id="roomsSectionSubtitle">Choose the best room type for your comfort.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline btn-sm" onclick="fetchRooms()">
+                        <span>🔄</span> Refresh Rooms
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hotel Context Banner -->
+            <div id="roomHotelBanner" class="context-banner">
+                <!-- Populated with selected hotel info -->
+            </div>
+
+            <!-- Rooms Loading State -->
+            <div id="roomsLoader" class="loader-state" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading room options...</p>
+            </div>
+
+            <!-- Rooms Empty State -->
+            <div id="roomsEmpty" class="empty-state" style="display: none;">
+                <div class="empty-icon">🛏️</div>
+                <h3>No Rooms Available</h3>
+                <p id="roomsEmptyMessage">There are no available rooms for this hotel right now.</p>
+                <button class="btn btn-secondary btn-sm" onclick="navigateTo('hotels')">
+                    Choose Another Hotel
+                </button>
+            </div>
+
+            <!-- Rooms Grid -->
+            <div id="roomsGrid" class="cards-grid rooms-grid"></div>
+
+            <div class="section-footer-nav">
+                <button class="btn btn-secondary" onclick="navigateTo('hotel-details')">
+                    ← Back to Hotel Details
+                </button>
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             5. RESERVATION FORM SECTION
+        ===================================================== -->
+        <section id="bookingSection" class="view-section">
+            <div class="section-header text-center">
+                <span class="step-tag">STEP 03</span>
+                <h2 class="section-title">Complete Your Reservation</h2>
+                <p class="section-desc">Please provide guest information to finalize your hotel stay.</p>
+            </div>
+
+            <div class="booking-grid">
+                <!-- Summary Column -->
+                <div class="summary-column">
+                    <div class="summary-card">
+                        <div class="summary-card-header">
+                            <h3 class="summary-heading">Booking Summary</h3>
+                            <span class="badge-active">Selected Stay</span>
+                        </div>
+                        <div id="bookingSummaryContent" class="summary-body">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Column -->
+                <div class="form-column">
+                    <div class="form-card">
+                        <form id="reservationForm" novalidate>
+                            <div class="form-header">
+                                <h3>Guest Details</h3>
+                                <p>Fill in the information for the reservation holder.</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customerName" class="form-label">
+                                    Full Name <span class="required">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">👤</span>
+                                    <input type="text" 
+                                           id="customerName" 
+                                           class="form-control" 
+                                           placeholder="e.g. Alexander Wright" 
+                                           required 
+                                           autocomplete="name">
+                                </div>
+                                <span class="field-error" id="nameError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customerEmail" class="form-label">
+                                    Email Address <span class="required">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">✉️</span>
+                                    <input type="email" 
+                                           id="customerEmail" 
+                                           class="form-control" 
+                                           placeholder="e.g. alex@example.com" 
+                                           required 
+                                           autocomplete="email">
+                                </div>
+                                <span class="field-error" id="emailError"></span>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="reservationDate" class="form-label">
+                                        Check-In / Reservation Date <span class="required">*</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">📅</span>
+                                        <input type="date" 
+                                               id="reservationDate" 
+                                               class="form-control" 
+                                               required>
+                                    </div>
+                                    <span class="field-error" id="dateError"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="numberOfGuests" class="form-label">
+                                        Number of Guests <span class="required">*</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon">👥</span>
+                                        <input type="number" 
+                                               id="numberOfGuests" 
+                                               class="form-control" 
+                                               min="1" 
+                                               max="10" 
+                                               value="1" 
+                                               required>
+                                    </div>
+                                    <span class="field-error" id="guestsError"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" id="submitBookingBtn" class="btn btn-primary btn-block btn-lg">
+                                    Confirm Reservation ✓
+                                </button>
+                            </div>
+
+                            <div id="bookingFormError" class="form-alert error-alert" style="display: none;"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-footer-nav">
+                <button class="btn btn-secondary" onclick="navigateTo('rooms')">
+                    ← Back to Rooms
+                </button>
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             6. BOOKING CONFIRMED / SUCCESS SECTION
+        ===================================================== -->
+        <section id="successSection" class="view-section">
+            <div class="success-card">
+                <div class="success-icon-wrapper">
+                    <div class="success-check-circle">✓</div>
+                </div>
+
+                <span class="step-tag success-tag">RESERVATION COMPLETED</span>
+                <h2 class="success-title">🎉 Booking Confirmed!</h2>
+                <p class="success-desc">
+                    Your reservation has been successfully placed with the Hotel Reservation Service.
+                </p>
+
+                <div id="successDetailsCard" class="success-details-box">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <div class="success-action-buttons">
+                    <button class="btn btn-primary btn-lg" onclick="navigateTo('reservations')">
+                        View My Reservations <span>📋</span>
+                    </button>
+                    <button class="btn btn-secondary btn-lg" onclick="navigateTo('home')">
+                        Back to Home <span>🏠</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- =====================================================
+             7. VIEW MY RESERVATIONS SECTION
+        ===================================================== -->
+        <section id="reservationsSection" class="view-section">
+            <div class="section-header">
+                <div class="header-content">
+                    <span class="step-tag">RESERVATION HISTORY</span>
+                    <h2 class="section-title">My Bookings & Reservations</h2>
+                    <p class="section-desc">Manage and view all confirmed hotel reservations in the system.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline btn-sm" onclick="fetchReservations()">
+                        <span>🔄</span> Refresh
+                    </button>
+                    <button class="btn btn-primary btn-sm" onclick="navigateTo('hotels')">
+                        <span>➕</span> Book New Stay
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loader -->
+            <div id="reservationsLoader" class="loader-state" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading your reservations...</p>
+            </div>
+
+            <!-- Empty State -->
+            <div id="reservationsEmpty" class="empty-state" style="display: none;">
+                <div class="empty-icon">📋</div>
+                <h3>No Reservations Found</h3>
+                <p>You haven't made any hotel reservations yet.</p>
+                <button class="btn btn-primary btn-md" onclick="navigateTo('hotels')">
+                    Explore Hotels & Book Now
+                </button>
+            </div>
+
+            <!-- Reservations Grid -->
+            <div id="reservationsGrid" class="cards-grid reservations-grid"></div>
+
+            <div class="section-footer-nav">
+                <button class="btn btn-secondary" onclick="navigateTo('home')">
+                    ← Back to Home
+                </button>
+            </div>
         </section>
 
     </main>
 
-    <script src="script.js"></script>
+    <!-- =====================================================
+         FOOTER
+    ===================================================== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="footer-logo">🏨 StayLux</span>
+                <p class="footer-text">
+                    Next-Generation Microservices-Powered Hotel Reservation & Management System.
+                </p>
+            </div>
+            <div class="footer-links">
+                <button class="footer-link-btn" onclick="navigateTo('home')">Home</button>
+                <button class="footer-link-btn" onclick="navigateTo('hotels')">Hotels</button>
+                <button class="footer-link-btn" onclick="navigateTo('reservations')">My Reservations</button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <small>© 2026 StayLux System • Service-Oriented Computing Microservices Platform</small>
+        </div>
+    </footer>
 
+    <!-- Scripts -->
+    <script src="script.js"></script>
 </body>
 </html>
